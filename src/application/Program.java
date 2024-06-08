@@ -12,9 +12,9 @@ public class Program {
 
         Department obj = new Department(1, "Books");
 
-        Seller seller = new Seller(21, "Bob", "bob@gmail.com", LocalDate.of(1990, 5,22), 3000.0, obj);
-
         SellerDao sellerDao = DaoFactory.createSellerDao();
+
+        Seller seller = sellerDao.findById(3);
 
         System.out.println(seller);
         System.out.println(obj);
