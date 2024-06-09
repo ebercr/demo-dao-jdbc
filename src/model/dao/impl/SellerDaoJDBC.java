@@ -2,6 +2,7 @@ package model.dao.impl;
 
 import db.DB;
 import db.DbException;
+import db.DbIntegrityException;
 import model.dao.SellerDao;
 import model.entities.Department;
 import model.entities.Seller;
@@ -73,8 +74,8 @@ public class SellerDaoJDBC implements SellerDao {
             st.setInt(5, obj.getDepartment().getId());
             st.setInt(6, obj.getId());
 
-            st.executeUpdate();
-
+            int rowsAffected = st.executeUpdate();
+            if (rowsAffected == 0) throw new DbIntegrityException("Error: Id entered does not exist, no lines were affected.");
         } catch (SQLException e) {
             throw new DbException(e.getMessage());
         } finally {
@@ -91,9 +92,8 @@ public class SellerDaoJDBC implements SellerDao {
 
             st.setInt(1, id);
 
-            int rows = st.executeUpdate();
-
-            if (rows == 0) throw new DbException("Error: Id entered does not exist, no lines were affected.");
+            int rowsAffected = st.executeUpdate();
+            if (rowsAffected == 0) throw new DbIntegrityException("Error: Id entered does not exist, no lines were affected.");
         } catch (SQLException e) {
             throw new DbException(e.getMessage());
         } finally {
